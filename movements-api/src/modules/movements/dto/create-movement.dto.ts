@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsNumber, IsPositive, IsString, IsIn } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsPositive, IsString, IsEnum } from 'class-validator';
+import { MovementType } from '../enums/movement-type.enum';
 
 export class CreateMovementDto {
   @IsNotEmpty()
@@ -9,8 +10,11 @@ export class CreateMovementDto {
   @IsPositive()
   monto!: number;
 
-  @IsIn(['INGRESO', 'EGRESO'])
-  tipo!: 'INGRESO' | 'EGRESO';
+  @IsNotEmpty()
+  @IsEnum(MovementType, {
+    message: 'el valor de tipo debe ser INGRESO o EGRESO',
+  })
+  tipo!: MovementType;
 
   @IsNotEmpty()
   @IsString()
